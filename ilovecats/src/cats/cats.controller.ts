@@ -1,11 +1,11 @@
-import { Controller, Get, Param, Post, Body, HttpCode, HttpStatus, Res } from '@nestjs/common';
-import { response } from 'express';
+import { Controller, Get, Param, Post, Body, Patch, Delete, Query } from '@nestjs/common';
 
 @Controller('cats')
 export class CatsController {
-  @Get('names')
-  findAll(@Res() response) {
-    response.status(200).send('This action returns all the cats')
+  @Get()
+  findAll(@Query() paginationQuery) {
+    const { limit, offset } = paginationQuery
+    return `This action returns all the cats. Limit ${limit}, offset: ${offset}`
   }
 
   @Get(':id')
@@ -14,8 +14,17 @@ export class CatsController {
   }
 
   @Post()
-  @HttpCode(HttpStatus.GONE)
   create(@Body() body) {
     return body
+  }
+
+  @Patch(':id')
+  update(@Param('id') id: string, @Body() body) {
+    return`This action updates #${id} cat`
+  }
+
+  @Delete(':id')
+  remove(@Param('id') id: string) {
+    return`This action removes #${id} cat`
   }
 }
