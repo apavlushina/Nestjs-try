@@ -1,5 +1,8 @@
 import { Controller, Get, Param, Post, Body, Patch, Delete, Query } from '@nestjs/common';
+import { CreateTracingOptions } from 'node:trace_events';
 import { CatsService } from './cats.service';
+import { CreateCatDto } from './dto/create-cat.dto';
+import { UpdateCatDto } from './dto/update-cat.dto';
 
 @Controller('cats')
 export class CatsController {
@@ -19,13 +22,14 @@ export class CatsController {
   }
 
   @Post()
-  create(@Body() body) {
-    return this.catsSevice.create(body)
+  create(@Body() createCatDto: CreateCatDto) {
+    console.log(createCatDto, createCatDto instanceof CreateCatDto)
+    return this.catsSevice.create(createCatDto)
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() body) {
-    return this.catsSevice.update(id, body)
+  update(@Param('id') id: string, @Body() updateCatDto: UpdateCatDto) {
+    return this.catsSevice.update(id, updateCatDto)
   }
 
   @Delete(':id')

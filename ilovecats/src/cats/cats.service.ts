@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { Cat } from './entities/cat.entity';
 
 @Injectable()
@@ -17,16 +17,22 @@ export class CatsService {
   }
 
   findOne(id: string) {
-    return this.cats.find(item => item.id === +id);
+    const cat = this.cats.find(item => item.id === +id);
+    if (!cat) {
+      //throw new HttpException(`This # ${id} is not found`, HttpStatus.NOT_FOUND)
+      throw new NotFoundException(`This # ${id} is not found`)
+    }
+    return cat
   }
 
-  create(createCoffeeDto: any) {
-    this.cats.push(createCoffeeDto);
+  create(createCatDto: any) {
+    this.cats.push(createCatDto);
+    return createCatDto
   }
 
-  update(id: string, updateCoffeeDto: any) {
-    const existingCoffee = this.findOne(id);
-    if (existingCoffee) {
+  update(id: string, updateCatDto: any) {
+    const existingCat = this.findOne(id);
+    if (existingCat) {
       // update the existing entity
     }
   }
