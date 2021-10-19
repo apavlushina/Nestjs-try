@@ -1,7 +1,8 @@
 import { 
   Injectable,
   Inject,
-  NotFoundException
+  NotFoundException,
+  Scope
  } from '@nestjs/common'
 import { InjectRepository } from '@nestjs/typeorm'
 import { Repository } from 'typeorm'
@@ -12,7 +13,7 @@ import { Coffee } from './entities/coffee.entity'
 import { Flavor } from './entities/flavor.entity'
 import { COFFEE_BRANDS } from './coffees.constants'
 
-@Injectable()
+@Injectable({ scope: Scope.REQUEST})
 export class CoffeesService {
   constructor(
     @InjectRepository(Coffee)
